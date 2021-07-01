@@ -7,6 +7,9 @@ function DocPHeader({ message }) {
     setIsModalVisible(true);
   };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
     <Row gutter={16} justify="center">
       <Col span={16} xs={24} sm={16}>
@@ -17,7 +20,16 @@ function DocPHeader({ message }) {
           Edit Data
         </Button>
       </Col>
-      <Modal title="Edit Data" visible={isModalVisible} footer={null}></Modal>
+      <Modal
+        title="Edit Data"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={false}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </Row>
   );
 }
