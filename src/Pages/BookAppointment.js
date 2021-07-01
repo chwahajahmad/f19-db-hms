@@ -10,6 +10,7 @@ import {
   Select,
   DatePicker,
   TimePicker,
+  message,
 } from "antd";
 import fetchUrl from "../fetchURL.js";
 export default function BookAppointment() {
@@ -28,38 +29,52 @@ export default function BookAppointment() {
   };
   const onFinish = values => {
     setIDValidationStatus("validating");
-    axios.get(`${fetchUrl}/getPatientsData/${values.patientId}`).then(res => {
-      if (res.data.length === 0) {
-        setIDValidationStatus("error");
-        setErrorMsg("Patient ID does not exist");
-        return;
-      } else {
-        if (doctorId === "") {
-          setErrorMsg("Select Doctor");
+    axios
+      .get(`${fetchUrl}/getPatientsData/${values.patientId}`)
+      .then(res => {
+        if (res.data.length === 0) {
+          setIDValidationStatus("error");
+          setErrorMsg("Patient ID does not exist");
           return;
-        }
+        } else {
+          setIDValidationStatus("success");
+          setErrorMsg("");
 
-        if (date === "") {
-          setErrorMsg("Select Date");
-          return;
+          if (doctorId === "" || typeof doctorId === "undefined") {
+            setErrorMsg("Select Doctor");
+            return;
+          }
+
+          if (date === "" || typeof date === "undefined") {
+            setErrorMsg("Select Date");
+            return;
+          }
+
+          if (typeof values.timePicker === "undefined") {
+            setErrorMsg("Select Time");
+            return;
+          }
+          axios({
+            method: "post",
+            url: `${fetchUrl}/insertAppointmentData/`,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            data: qs.stringify({
+              doctorId,
+              patientId: values.patientId,
+              appDate: date.toDate().toISOString(),
+              appTime: values.timePicker.add(5, "hours").toDate().toISOString(),
+            }),
+          })
+            .then((req, res) => {
+              setErrorMsg("");
+              message.success("Appointment got Booked");
+            })
+            .catch(err => setErrorMsg("Internal Error Happend"));
         }
-        axios({
-          method: "post",
-          url: `${fetchUrl}/insertAppointmentData/`,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          data: qs.stringify({
-            doctorId,
-            patientId: values.patientId,
-            appDate: date.toDate().toISOString(),
-            appTime: values.timePicker.add(5, "hours").toDate().toISOString(),
-          }),
-        });
-        setIDValidationStatus("success");
-        setErrorMsg("");
-      }
-    });
+      })
+      .catch(err => setErrorMsg("Internal Error Happend"));
   };
 
   function onChange(dateString) {
