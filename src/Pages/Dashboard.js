@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Statistic, Row, Col } from "antd";
 import axios from "axios";
 import TableComp from "../Components/TableComp";
-
+import fetchUrl from "../fetchURL.js";
 const columns = [
   {
     title: "Patient",
@@ -22,15 +22,12 @@ function Dashboard() {
   const [appointmentData, setappointmentData] = useState([]);
   useEffect(() => {
     getDashboardData();
-    return () => {
-      getDashboardData();
-    };
   }, []);
   const getDashboardData = () => {
-    axios.get("http://localhost:3001/dashboardStats").then(res => {
+    axios.get(`${fetchUrl}/dashboardStats`).then(res => {
       setDashboardStats({ ...res.data });
     });
-    axios.get("http://localhost:3001/todaysAppointments").then(res => {
+    axios.get(`${fetchUrl}/todaysAppointments`).then(res => {
       setappointmentData(res.data);
     });
   };

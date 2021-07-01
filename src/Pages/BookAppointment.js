@@ -11,7 +11,7 @@ import {
   DatePicker,
   TimePicker,
 } from "antd";
-
+import fetchUrl from "../fetchURL.js";
 export default function BookAppointment() {
   const [IDValidationStatus, setIDValidationStatus] = useState("");
   const [doctorsList, setDoctorsList] = useState([]);
@@ -20,52 +20,46 @@ export default function BookAppointment() {
   const [errorMsg, setErrorMsg] = useState("");
   useEffect(() => {
     doctorsDataFetch();
-
-    return () => {
-      doctorsDataFetch();
-    };
   }, []);
   const doctorsDataFetch = () => {
-    axios.get(`http://localhost:3001/getDoctorsData`).then(res => {
+    axios.get(`${fetchUrl}/getDoctorsData`).then(res => {
       setDoctorsList(res.data);
     });
   };
   const onFinish = values => {
     setIDValidationStatus("validating");
-    axios
-      .get(`http://localhost:3001/getPatientsData/${values.patientId}`)
-      .then(res => {
-        if (res.data.length === 0) {
-          setIDValidationStatus("error");
-          setErrorMsg("Patient ID does not exist");
+    axios.get(`${fetchUrl}/getPatientsData/${values.patientId}`).then(res => {
+      if (res.data.length === 0) {
+        setIDValidationStatus("error");
+        setErrorMsg("Patient ID does not exist");
+        return;
+      } else {
+        if (doctorId === "") {
+          setErrorMsg("Select Doctor");
           return;
-        } else {
-          if (doctorId === "") {
-            setErrorMsg("Select Doctor");
-            return;
-          }
-
-          if (date === "") {
-            setErrorMsg("Select Date");
-            return;
-          }
-          axios({
-            method: "post",
-            url: "http://localhost:3001/insertAppointmentData/",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            data: qs.stringify({
-              doctorId,
-              patientId: values.patientId,
-              appDate: date.toDate().toISOString(),
-              appTime: values.timePicker.add(5, "hours").toDate().toISOString(),
-            }),
-          });
-          setIDValidationStatus("success");
-          setErrorMsg("");
         }
-      });
+
+        if (date === "") {
+          setErrorMsg("Select Date");
+          return;
+        }
+        axios({
+          method: "post",
+          url: `${fetchUrl}/insertAppointmentData/`,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data: qs.stringify({
+            doctorId,
+            patientId: values.patientId,
+            appDate: date.toDate().toISOString(),
+            appTime: values.timePicker.add(5, "hours").toDate().toISOString(),
+          }),
+        });
+        setIDValidationStatus("success");
+        setErrorMsg("");
+      }
+    });
   };
 
   function onChange(dateString) {
