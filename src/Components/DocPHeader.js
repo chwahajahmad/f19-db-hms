@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Row, Col, Button, Modal } from "antd";
+import { Row, Col, Button, Modal, Tabs } from "antd";
+import {
+  InsertRowBelowOutlined,
+  DeleteOutlined,
+  FormOutlined,
+} from "@ant-design/icons";
+const { TabPane } = Tabs;
 function DocPHeader({ message }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -26,9 +32,39 @@ function DocPHeader({ message }) {
         onCancel={handleCancel}
         footer={false}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <Tabs tabPosition="bottom">
+          <TabPane
+            tab={
+              <span>
+                <InsertRowBelowOutlined />
+                Insert Record
+              </span>
+            }
+            key="1"
+          >
+            Content of Tab 1
+          </TabPane>
+          <TabPane
+            tab={
+              <span>
+                <FormOutlined /> Update Record
+              </span>
+            }
+            key="2"
+          >
+            Content of Tab 2
+          </TabPane>
+          <TabPane
+            tab={
+              <span>
+                <DeleteOutlined /> Delete Record
+              </span>
+            }
+            key="3"
+          >
+            Content of Tab 3
+          </TabPane>
+        </Tabs>
       </Modal>
     </Row>
   );
