@@ -3,7 +3,7 @@ import ChildPage from "./DocPWrapper.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import fetchUrl from "../fetchURL";
-
+import InsertComp from "../Components/InsertPatients";
 function Patients() {
   const [tableData, settableData] = useState({
     data: [],
@@ -52,6 +52,7 @@ function Patients() {
         message="Patients Records"
         tableData={tableData}
         deleteData={deleteData}
+        InsertComp={InsertComp}
       />
     </div>
   );

@@ -2,18 +2,8 @@ import React, { useState, useEffect } from "react";
 import fetchUrl from "../fetchURL";
 import axios from "axios";
 import qs from "qs";
-import {
-  Row,
-  Input,
-  Button,
-  Checkbox,
-  Form,
-  Select,
-  DatePicker,
-  message,
-} from "antd";
+import { Row, Input, Button, Form, Select, DatePicker, message } from "antd";
 
-const { Option } = Select;
 export default function InsertDoctorsData() {
   const [departmentsData, setdepartmentsData] = useState([]);
 
@@ -44,7 +34,7 @@ export default function InsertDoctorsData() {
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    message.error("Failed:", errorInfo);
   };
   return (
     <div>
@@ -70,7 +60,7 @@ export default function InsertDoctorsData() {
           ]}
           style={{ display: "inline-block", width: "calc(50%)" }}
         >
-          <Input placeholder="First Name" />
+          <Input name="fname" placeholder="First Name" value="ahmad" />
         </Form.Item>
 
         <Form.Item
@@ -84,7 +74,7 @@ export default function InsertDoctorsData() {
           ]}
           style={{ display: "inline-block", width: "calc(50%)" }}
         >
-          <Input placeholder="Last Name" />
+          <Input name="lname" placeholder="Last Name" />
         </Form.Item>
         <Form.Item
           label=""
@@ -97,7 +87,7 @@ export default function InsertDoctorsData() {
           ]}
           style={{ display: "inline-block", width: "calc(50%)" }}
         >
-          <Input placeholder="Contact" />
+          <Input name="contact" placeholder="Contact" />
         </Form.Item>
         <Form.Item
           label=""
@@ -110,7 +100,7 @@ export default function InsertDoctorsData() {
           ]}
           style={{ display: "inline-block", width: "calc(50%)" }}
         >
-          <Input placeholder="Pay" />
+          <Input name="pay" placeholder="Pay" />
         </Form.Item>
         <Form.Item
           label=""
@@ -123,11 +113,11 @@ export default function InsertDoctorsData() {
           ]}
           style={{ display: "inline-block", width: "calc(50%)" }}
         >
-          <Input placeholder="Address" />
+          <Input name="address" placeholder="Address" />
         </Form.Item>
         <Form.Item
           name={["Deptid"]}
-          noStyle
+          style={{ display: "inline-block", width: "calc(50%)" }}
           rules={[{ required: true, message: "Province is required" }]}
         >
           <Select placeholder="Department">
@@ -138,7 +128,10 @@ export default function InsertDoctorsData() {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="joinDate">
+        <Form.Item
+          name="joinDate"
+          style={{ display: "inline-block", width: "calc(50%)" }}
+        >
           <DatePicker placeholder="Join Date" />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
