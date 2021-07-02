@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import fetchUrl from "../fetchURL";
 import Insert from "../Components/InsertDoctorsData";
+import UpdateComp from "../Components/UpdateDoctor";
 function Doctors() {
   const [tableData, settableData] = useState({
     data: [],
@@ -53,6 +54,7 @@ function Doctors() {
         tableData={tableData}
         deleteData={deleteData}
         InsertComp={Insert}
+        UpdateComp={UpdateComp}
       />
     </>
   );

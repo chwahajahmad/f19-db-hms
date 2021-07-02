@@ -27,8 +27,8 @@ export default function InsertDoctorsData() {
     discharge: "",
     disease: "2",
     admitDate: undefined,
-    privateWardId: undefined,
-    generalWardID: undefined,
+    privateWardId: "",
+    generalWardID: "",
     bed_no: 0,
   };
 
@@ -46,7 +46,7 @@ export default function InsertDoctorsData() {
     formData = { ...formData, ...values };
     if (typeof formData.admitDate !== "undefined")
       formData.admitDate = formData.admitDate.toDate().toISOString();
-    console.log("Success:", formData);
+
     axios({
       method: "post",
       url: `${fetchUrl}/insertPatientsData/`,
@@ -58,11 +58,10 @@ export default function InsertDoctorsData() {
       }),
     })
       .then((req, res) => {
-        message.success("Doctor Added");
+        message.success("Patient Added");
       })
       .catch(err => {
-        message.error("Ward ID or Bed No doesn't Exist");
-        console.log(err);
+        message.error("Failed: Check your Data carefully(ward id or bed_no)");
       });
   };
 
