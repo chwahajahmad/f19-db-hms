@@ -39,10 +39,16 @@ function Patients() {
     };
     fetchData();
   }, []);
-
+  const deleteData = {
+    link: "/deletePatientsData",
+  };
   return (
     <div>
-      <ChildPage message="Patients Records" tableData={tableData} />
+      <ChildPage
+        message="Patients Records"
+        tableData={tableData}
+        deleteData={deleteData}
+      />
     </div>
   );
 }

@@ -25,6 +25,7 @@ export default function BookAppointment() {
   const doctorsDataFetch = () => {
     axios.get(`${fetchUrl}/getDoctorsData`).then(res => {
       setDoctorsList(res.data);
+      console.log(res.data);
     });
   };
   const onFinish = values => {
@@ -64,7 +65,10 @@ export default function BookAppointment() {
               doctorId,
               patientId: values.patientId,
               appDate: date.toDate().toISOString(),
-              appTime: values.timePicker.add(5, "hours").toDate().toISOString(),
+              appTime: values.timePicker
+                .add(15, "hours")
+                .toDate()
+                .toISOString(),
             }),
           })
             .then((req, res) => {
@@ -126,8 +130,8 @@ export default function BookAppointment() {
             >
               <Select onChange={handleChange}>
                 {doctorsList.map((data, index) => (
-                  <Select.Option key={data.Did} value={data.Did}>
-                    {data.Fname + " " + data.Lname}
+                  <Select.Option key={data.key} value={data.key}>
+                    {data.name}
                   </Select.Option>
                 ))}
               </Select>

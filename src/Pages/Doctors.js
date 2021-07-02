@@ -38,10 +38,16 @@ function Doctors() {
     };
     fetchData();
   }, []);
-
+  const deleteData = {
+    link: "/deleteDoctorsData",
+  };
   return (
     <>
-      <ChildPage message="Doctors Records" tableData={tableData} />
+      <ChildPage
+        message="Doctors Records"
+        tableData={tableData}
+        deleteData={deleteData}
+      />
     </>
   );
 }

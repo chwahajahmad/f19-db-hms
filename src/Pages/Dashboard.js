@@ -6,11 +6,11 @@ import fetchUrl from "../fetchURL.js";
 const columns = [
   {
     title: "Patient",
-    dataIndex: "pfname",
+    dataIndex: "pName",
   },
   {
     title: "Doctor",
-    dataIndex: "dfname",
+    dataIndex: "dName",
   },
   {
     title: "Time",

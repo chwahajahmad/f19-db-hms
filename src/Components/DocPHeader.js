@@ -5,8 +5,9 @@ import {
   DeleteOutlined,
   FormOutlined,
 } from "@ant-design/icons";
+import DeleteData from "../Components/DeleteData";
 const { TabPane } = Tabs;
-function DocPHeader({ message }) {
+function DocPHeader({ message, deleteData }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -51,9 +52,7 @@ function DocPHeader({ message }) {
               </span>
             }
             key="2"
-          >
-            Content of Tab 2
-          </TabPane>
+          ></TabPane>
           <TabPane
             tab={
               <span>
@@ -62,7 +61,7 @@ function DocPHeader({ message }) {
             }
             key="3"
           >
-            Content of Tab 3
+            <DeleteData deleteData={deleteData} />
           </TabPane>
         </Tabs>
       </Modal>
