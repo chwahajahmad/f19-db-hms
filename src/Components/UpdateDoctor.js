@@ -1,27 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import fetchUrl from "../fetchURL";
 import axios from "axios";
 import qs from "qs";
 import { Row, Input, Button, Form, Select, DatePicker, message } from "antd";
 import moment from "moment";
 const { Search } = Input;
-export default function InsertDoctorsData() {
+export default function UpdateDoctor() {
   const [departmentsData, setdepartmentsData] = useState([]);
   const [doctorData, setDoctorData] = useState([]);
   const [updated, setUpdated] = useState(false);
-  useEffect(() => {
-    if (doctorData.length > 0) {
-      axios.get(`${fetchUrl}/getDepartmentData`).then(res => {
-        setdepartmentsData(res.data);
-      });
-    }
-  }, [doctorData]);
+  const [form] = Form.useForm();
 
   const onSearch = e => {
     if (e.length > 0) {
-      axios.get(`${fetchUrl}/getDoctorsData/${e}`).then(res => {
-        setDoctorData(res.data);
-        console.log(res.data);
+      axios.get(`${fetchUrl}/getDoctorsData/${e}`).then(doctor => {
+        setDoctorData(doctor.data);
+        if (doctor.data.length > 0) {
+          axios.get(`${fetchUrl}/getDepartmentData`).then(res => {
+            setdepartmentsData(res.data);
+            form.setFieldsValue({
+              Fname: doctor.data[0].Fname,
+              Lname: doctor.data[0].Lname,
+              address: doctor.data[0].address,
+              pay: doctor.data[0].pay,
+              contact: doctor.data[0].contact,
+              Deptid: doctor.data[0].DeptId,
+              joinDate: moment(
+                doctor.data[0].joindate.slice(0, 10),
+                "YYYY-MM-DD"
+              ),
+            });
+          });
+        }
       });
     }
   };
@@ -31,7 +41,6 @@ export default function InsertDoctorsData() {
   };
   const onFinish = values => {
     if (updated) {
-      console.log("Success:", values);
       axios({
         method: "post",
         url: `${fetchUrl}/updateDoctorsData/`,
@@ -79,13 +88,7 @@ export default function InsertDoctorsData() {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           justify="center"
-          initialValues={{
-            Fname: doctorData[0].Fname,
-            Lname: doctorData[0].Lname,
-            address: doctorData[0].address,
-            pay: doctorData[0].pay,
-            contact: doctorData[0].contact,
-          }}
+          form={form}
           onValuesChange={onValuesChange}
         >
           <Form.Item
@@ -152,10 +155,9 @@ export default function InsertDoctorsData() {
             <Input name="address" placeholder="Address" />
           </Form.Item>
           <Form.Item
-            name={["Deptid"]}
+            name="Deptid"
             style={{ display: "inline-block", width: "calc(50%)" }}
             rules={[{ required: true, message: "Province is required" }]}
-            initialValue={doctorData[0].DeptId}
           >
             <Select placeholder="Department">
               {departmentsData.map((data, index) => (
@@ -169,10 +171,6 @@ export default function InsertDoctorsData() {
             name="joinDate"
             style={{ display: "inline-block", width: "calc(50%)" }}
             rules={[{ required: true, message: "Join Date is required" }]}
-            initialValue={moment(
-              doctorData[0].joindate.slice(0, 10),
-              "YYYY-MM-DD"
-            )}
           >
             <DatePicker placeholder="Join Date" />
           </Form.Item>

@@ -14,7 +14,7 @@ import {
   Radio,
 } from "antd";
 
-export default function InsertDoctorsData() {
+export default function InsertPatients() {
   const [doctorsData, setDoctorsData] = useState([]);
   const [showAdmitInfo, setshowAdmitInfo] = useState(false);
   const [radioValue, setRadioValue] = useState(1);
@@ -35,11 +35,9 @@ export default function InsertDoctorsData() {
   useEffect(() => {
     axios.get(`${fetchUrl}/getDoctorsData`).then(res => {
       setDoctorsData(res.data);
-      console.log(res.data);
     });
   }, []);
   const wardChange = e => {
-    console.log("radio checked", e.target.value);
     setRadioValue(e.target.value);
   };
   const onFinish = values => {
