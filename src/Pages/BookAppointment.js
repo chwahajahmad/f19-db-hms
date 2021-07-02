@@ -25,7 +25,6 @@ export default function BookAppointment() {
   const doctorsDataFetch = () => {
     axios.get(`${fetchUrl}/getDoctorsData`).then(res => {
       setDoctorsList(res.data);
-      console.log(res.data);
     });
   };
   const onFinish = values => {

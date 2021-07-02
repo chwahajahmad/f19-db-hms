@@ -9,6 +9,10 @@ function Patients() {
     data: [],
     columns: [
       {
+        title: "ID",
+        dataIndex: "key",
+      },
+      {
         title: "Name",
         dataIndex: "name",
       },

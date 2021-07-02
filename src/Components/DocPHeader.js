@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import DeleteData from "../Components/DeleteData";
 const { TabPane } = Tabs;
-function DocPHeader({ message, deleteData }) {
+function DocPHeader({ message, deleteData, InsertComp }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -43,7 +43,7 @@ function DocPHeader({ message, deleteData }) {
             }
             key="1"
           >
-            Content of Tab 1
+            <InsertComp />
           </TabPane>
           <TabPane
             tab={
