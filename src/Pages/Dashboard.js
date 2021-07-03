@@ -81,6 +81,7 @@ function Dashboard() {
         </Row>
       </Col>
       <Col span={12} xs={24} lg={12}>
+        <h2>Today's Appointments</h2>
         <TableComp
           columns={columns}
           data={appointmentData}
